@@ -59,7 +59,7 @@ func main() {
 
             case `start`,`s`:
                 if(len(os.Args) >=3){
-                    fmt.Printf("tracking started at %v\n", getTime())
+                    fmt.Printf("tracking started at %v on task %v\n", getTime(),arg_values[2])
                 }else{
                     fmt.Println("task to track required try : am help for how to use")
                 }
@@ -67,6 +67,10 @@ func main() {
 
             case `end`,`e`:
                 fmt.Printf("tracking ended at %v\n", getTime())
+            break
+
+            case `now`,`n`:
+                fmt.Printf("You've been working on  for \n")
             break
 
             default:
