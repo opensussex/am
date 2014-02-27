@@ -3,6 +3,7 @@ package main
 import (
     "fmt"
     "os"
+    "os/user"
     //"io/ioutil"
     //"encoding/json"
     "time"
@@ -12,7 +13,18 @@ import (
 
 func main() {
     //fmt.Println(len(os.Args), os.Args)
-    
+   
+    usr, err := user.Current() 
+    if err != nil {
+        fmt.Println( err )
+    }
+
+    if(!file_exists(usr.HomeDir + `/.am-store`)){ // we want to create the .am-store file
+        am_store, err := os.Create(usr.HomeDir + `/.am-store`)
+        if err != nil { panic(err) }
+        am_store.Close() // lets the file.
+    }
+
     if(len(os.Args) > 1){
     	arg_values := os.Args
         switch(arg_values[1]){
@@ -46,8 +58,19 @@ func main() {
     }else{
         fmt.Println("No arguments provided try :am help for how to use")
     }
+
+
 }
 
 func getTime() time.Time{
     return  time.Now()
+}
+
+func file_exists(file string) bool{
+    if _, err := os.Stat(file); os.IsNotExist(err) {
+        //fmt.Printf("no such file : %s \n", file)
+        return false
+    }
+    return true
+
 }
