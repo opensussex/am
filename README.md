@@ -1,4 +1,4 @@
 am
 ==
 
-command line time tracker
+command line time tracker written in go
