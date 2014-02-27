@@ -21,8 +21,8 @@ func main() {
 
     if(!file_exists(usr.HomeDir + `/.am-store`)){ // we want to create the .am-store file
         am_store, err := os.Create(usr.HomeDir + `/.am-store`)
+        defer am_store.Close() // lets the file.
         if err != nil { panic(err) }
-        am_store.Close() // lets the file.
     }
 
     if(len(os.Args) > 1){
