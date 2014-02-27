@@ -29,6 +29,14 @@ func main() {
                fmt.Println(getTime())
             break
 
+            case `start`,`s`:
+                fmt.Printf("tracking started at %v\n", getTime())
+            break
+
+            case `end`,`e`:
+                fmt.Printf("tracking ended at %v\n", getTime())
+            break
+
             default:
                 message := arg_values[1] + ` :argument not recognised try :am help for how to use`
                 fmt.Println(message)
