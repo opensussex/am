@@ -71,7 +71,15 @@ func main() {
             break
 
             case `now`,`n`:
-                fmt.Printf("You've been working on  for \n")
+                
+                //fmt.Println(csv.GetRows()-1)
+                
+                if(csv.GetString(csv.GetRows()-1,2) == `0`){
+                    fmt.Printf("You're working on %s since %s \n", csv.GetString(csv.GetRows()-1,0),csv.GetString(csv.GetRows()-1,1))
+                }else{
+                    fmt.Println(`You're not tracking any task`)
+                }
+                
             break
 
             case `log`,`l`:
