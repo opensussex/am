@@ -33,6 +33,22 @@ func main() {
             message := `
                 Welcome to am help
                 am is a command line time tracker
+                arguments:
+                
+                start (s)
+                end (e)
+                time (t)
+                help (h)
+
+                usage : 
+                am s <task name>
+                starts tracking <task name>
+
+                am e
+                ends the tracking of a current task
+                
+                am t
+                gives current time
                 `;
                 fmt.Println(message)
             break
@@ -42,7 +58,11 @@ func main() {
             break
 
             case `start`,`s`:
-                fmt.Printf("tracking started at %v\n", getTime())
+                if(len(os.Args) >=3){
+                    fmt.Printf("tracking started at %v\n", getTime())
+                }else{
+                    fmt.Println("task to track required try : am help for how to use")
+                }
             break
 
             case `end`,`e`:
