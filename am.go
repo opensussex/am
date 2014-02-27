@@ -4,9 +4,8 @@ import (
     "fmt"
     "os"
     "os/user"
-    //"io/ioutil"
-    //"encoding/json"
     "time"
+    "github.com/mabetle/gocsv"
 
 )
 
@@ -26,6 +25,8 @@ func main() {
     }
 
     if(len(os.Args) > 1){
+
+        csv:=gocsv.LoadFile(usr.HomeDir + `/.am-store`)
     	arg_values := os.Args
         switch(arg_values[1]){
             case `help`,`h`:
@@ -71,6 +72,10 @@ func main() {
 
             case `now`,`n`:
                 fmt.Printf("You've been working on  for \n")
+            break
+
+            case `log`,`l`:
+                csv.ShowContent()
             break
 
             default:
