@@ -82,8 +82,8 @@ func main() {
 
 }
 
-func getTime() time.Time{
-    return  time.Now()
+func getTime() string{
+    return  time.Now().Format("Mon Jan _2 15:04:05 2006")
 }
 
 func file_exists(file string) bool{
