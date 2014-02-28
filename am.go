@@ -5,7 +5,7 @@ import (
     "os"
     "os/user"
     "time"
-    "github.com/mabetle/gocsv"
+    "encoding/csv"
 
 )
 
@@ -26,9 +26,21 @@ func main() {
 
     if(len(os.Args) > 1){
 
-        csv:=gocsv.LoadFile(usr.HomeDir + `/.am-store`)
-        fmt.Println(csv.GetData())
     	arg_values := os.Args
+
+        csvFile, err := os.Open(usr.HomeDir + `/.am-store`)
+        defer csvFile.Close()
+
+        if err != nil {
+            panic(err)
+        }
+
+        csvReader := csv.NewReader(csvFile)
+        tasks,err := csvReader.ReadAll()
+        if err != nil{
+            panic(err)
+        }
+
         switch(arg_values[1]){
             case `help`,`h`:
             
@@ -76,17 +88,22 @@ func main() {
             case `now`,`n`:
                 
                 //fmt.Println(csv.GetRows()-1)
-                
+                /*
                 if(csv.GetString(csv.GetRows()-1,2) == `now`){
                     fmt.Printf("You're working on %s since %s \n", csv.GetString(csv.GetRows()-1,0),csv.GetString(csv.GetRows()-1,1))
                 }else{
                     fmt.Println(`You're not tracking any task`)
                 }
+                */
                 
             break
 
             case `list`,`l`:
-                csv.ShowContent()
+
+                for _,task := range tasks {
+                    fmt.Println(task)
+                }
+                
             break
 
             default:
