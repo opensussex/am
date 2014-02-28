@@ -18,8 +18,10 @@ func main() {
         fmt.Println( err )
     }
 
-    if(!file_exists(usr.HomeDir + `/.am-store`)){ // we want to create the .am-store file
-        am_store, err := os.Create(usr.HomeDir + `/.am-store`)
+    am_store_path := usr.HomeDir + `/.am-store`
+
+    if(!file_exists(am_store_path)){ // we want to create the .am-store file
+        am_store, err := os.Create(am_store_path)
         defer am_store.Close() // lets the file.
         if err != nil { panic(err) }
     }
@@ -28,7 +30,7 @@ func main() {
 
     	arg_values := os.Args
 
-        csvFile, err := os.OpenFile(usr.HomeDir + `/.am-store`,os.O_RDWR , 0777)
+        csvFile, err := os.OpenFile(am_store_path,os.O_RDWR , 0777)
         defer csvFile.Close()
 
         if err != nil {
@@ -41,7 +43,7 @@ func main() {
         if err != nil{
             panic(err)
         }
-
+        
         current_task:= tasks[len(tasks)-1]
 
         switch(arg_values[1]){
@@ -58,6 +60,7 @@ func main() {
                 help (h)
                 list (l)
                 now (n)
+                delete (d)
 
                 usage : 
                 am s <task name>
@@ -86,7 +89,7 @@ func main() {
                     fmt.Printf("tracking started at %v on task %v\n", getTime(),arg_values[2])
                     new_task := []string{arg_values[2],getTime(),`now`}
                     tasks = append(tasks,new_task)
-                    csvFile, err := os.OpenFile(usr.HomeDir + `/.am-store`,os.O_RDWR , 0777)
+                    csvFile, err := os.OpenFile(am_store_path,os.O_RDWR , 0777)
                     defer csvFile.Close()
 
                     if err != nil {
@@ -129,6 +132,15 @@ func main() {
                     fmt.Println(task)
                 }
                 
+            break
+
+            case `delete`,`d`:
+                 remove := os.Remove(am_store_path)
+                if remove != nil{
+                    panic(err)
+                }else{
+                    fmt.Println("Timesheet deleted")
+                }
             break
 
             default:
