@@ -86,15 +86,15 @@ func main() {
             break
 
             case `now`,`n`:
-                
-                //fmt.Println(csv.GetRows()-1)
-                /*
-                if(csv.GetString(csv.GetRows()-1,2) == `now`){
-                    fmt.Printf("You're working on %s since %s \n", csv.GetString(csv.GetRows()-1,0),csv.GetString(csv.GetRows()-1,1))
+              
+                now := tasks[len(tasks)-1]
+
+                if(now[2] == `now`){
+                    fmt.Printf("You're working on %s since %s \n", now[0],now[1])
                 }else{
                     fmt.Println(`You're not tracking any task`)
                 }
-                */
+            
                 
             break
 
