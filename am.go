@@ -27,6 +27,7 @@ func main() {
     if(len(os.Args) > 1){
 
         csv:=gocsv.LoadFile(usr.HomeDir + `/.am-store`)
+        fmt.Println(csv.GetData())
     	arg_values := os.Args
         switch(arg_values[1]){
             case `help`,`h`:
@@ -76,7 +77,7 @@ func main() {
                 
                 //fmt.Println(csv.GetRows()-1)
                 
-                if(csv.GetString(csv.GetRows()-1,2) == `0`){
+                if(csv.GetString(csv.GetRows()-1,2) == `now`){
                     fmt.Printf("You're working on %s since %s \n", csv.GetString(csv.GetRows()-1,0),csv.GetString(csv.GetRows()-1,1))
                 }else{
                     fmt.Println(`You're not tracking any task`)
