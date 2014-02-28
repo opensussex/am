@@ -43,7 +43,13 @@ func main() {
         if err != nil{
             panic(err)
         }
-        
+
+        if(len(tasks) == 0){
+            ini_task := []string{`Task`,`Start-Time`,`End-Time`}
+            tasks = append(tasks,ini_task)
+            csvWriter.WriteAll(tasks)
+        }
+
         current_task:= tasks[len(tasks)-1]
 
         switch(arg_values[1]){
@@ -82,6 +88,7 @@ func main() {
             case `start`,`s`:
                 if(len(os.Args) >=3){
                     csvFile.Close()
+                    os.Remove(am_store_path)
                     if(current_task[2] == `now`){
                         fmt.Printf("tracking %s ended at %v\n", current_task[0],getTime())
                         tasks[len(tasks)-1][2] = getTime()
@@ -89,6 +96,11 @@ func main() {
                     fmt.Printf("tracking started at %v on task %v\n", getTime(),arg_values[2])
                     new_task := []string{arg_values[2],getTime(),`now`}
                     tasks = append(tasks,new_task)
+                    if(!file_exists(am_store_path)){ // we want to create the .am-store file
+                        am_store, err := os.Create(am_store_path)
+                        defer am_store.Close() // lets the file.
+                        if err != nil { panic(err) }
+                    }
                     csvFile, err := os.OpenFile(am_store_path,os.O_RDWR , 0777)
                     defer csvFile.Close()
 
