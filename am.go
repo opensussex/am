@@ -28,7 +28,7 @@ func main() {
 
     	arg_values := os.Args
 
-        csvFile, err := os.Open(usr.HomeDir + `/.am-store`)
+        csvFile, err := os.OpenFile(usr.HomeDir + `/.am-store`,os.O_RDWR , 0777)
         defer csvFile.Close()
 
         if err != nil {
@@ -36,10 +36,13 @@ func main() {
         }
 
         csvReader := csv.NewReader(csvFile)
+        csvWriter := csv.NewWriter(csvFile)
         tasks,err := csvReader.ReadAll()
         if err != nil{
             panic(err)
         }
+
+        current_task:= tasks[len(tasks)-1]
 
         switch(arg_values[1]){
             case `help`,`h`:
@@ -82,15 +85,20 @@ func main() {
             break
 
             case `end`,`e`:
-                fmt.Printf("tracking ended at %v\n", getTime())
+                if(current_task[2] == `now`){
+                    fmt.Printf("tracking %s ended at %v\n", current_task[0],getTime())
+                    tasks[len(tasks)-1][2] = getTime()
+                    fmt.Println(csvWriter.WriteAll(tasks))
+                }else{
+                    fmt.Println("You're not tracking any task!")
+                }
+                
             break
 
             case `now`,`n`:
               
-                now := tasks[len(tasks)-1]
-
-                if(now[2] == `now`){
-                    fmt.Printf("You're working on %s since %s \n", now[0],now[1])
+                if(current_task[2] == `now`){
+                    fmt.Printf("You're working on %s since %s \n", current_task[0],current_task[1])
                 }else{
                     fmt.Println(`You're not tracking any task`)
                 }
