@@ -79,6 +79,9 @@ func main() {
             case `start`,`s`:
                 if(len(os.Args) >=3){
                     fmt.Printf("tracking started at %v on task %v\n", getTime(),arg_values[2])
+                    new_task := []string{arg_values[2],getTime(),`now`}
+                    tasks = append(tasks,new_task)
+                    csvWriter.WriteAll(tasks)
                 }else{
                     fmt.Println("task to track required try : am help for how to use")
                 }
@@ -88,7 +91,7 @@ func main() {
                 if(current_task[2] == `now`){
                     fmt.Printf("tracking %s ended at %v\n", current_task[0],getTime())
                     tasks[len(tasks)-1][2] = getTime()
-                    fmt.Println(csvWriter.WriteAll(tasks))
+                    csvWriter.WriteAll(tasks)
                 }else{
                     fmt.Println("You're not tracking any task!")
                 }
