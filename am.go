@@ -78,9 +78,23 @@ func main() {
 
             case `start`,`s`:
                 if(len(os.Args) >=3){
+                    csvFile.Close()
+                    if(current_task[2] == `now`){
+                        fmt.Printf("tracking %s ended at %v\n", current_task[0],getTime())
+                        tasks[len(tasks)-1][2] = getTime()
+                    }
                     fmt.Printf("tracking started at %v on task %v\n", getTime(),arg_values[2])
                     new_task := []string{arg_values[2],getTime(),`now`}
                     tasks = append(tasks,new_task)
+                    csvFile, err := os.OpenFile(usr.HomeDir + `/.am-store`,os.O_RDWR , 0777)
+                    defer csvFile.Close()
+
+                    if err != nil {
+                        panic(err)
+                    }
+
+                    csvWriter := csv.NewWriter(csvFile)
+
                     csvWriter.WriteAll(tasks)
                 }else{
                     fmt.Println("task to track required try : am help for how to use")
