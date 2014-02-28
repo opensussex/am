@@ -40,6 +40,8 @@ func main() {
                 end (e)
                 time (t)
                 help (h)
+                list (l)
+                now (n)
 
                 usage : 
                 am s <task name>
@@ -82,7 +84,7 @@ func main() {
                 
             break
 
-            case `log`,`l`:
+            case `list`,`l`:
                 csv.ShowContent()
             break
 
